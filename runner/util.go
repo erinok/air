@@ -301,9 +301,11 @@ func isDir(path string) bool {
 	return i.IsDir()
 }
 
+// validEvent also accepts attribute-only changes, so `touch` on a watched file rebuilds.
 func validEvent(ev fsnotify.Event) bool {
 	return ev.Op&fsnotify.Create == fsnotify.Create ||
 		ev.Op&fsnotify.Write == fsnotify.Write ||
+		ev.Op&fsnotify.Chmod == fsnotify.Chmod ||
 		ev.Op&fsnotify.Remove == fsnotify.Remove ||
 		ev.Op&fsnotify.Rename == fsnotify.Rename
 }
